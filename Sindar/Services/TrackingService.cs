@@ -53,19 +53,10 @@ namespace Sindar.Services
             _locationManager.RequestLocationUpdates(_locationProvider, LOCATION_INTERVAL, LOCATION_DISTANCE, this);
         }
 
-        public async void OnLocationChanged(Location location)
+        public void OnLocationChanged(Location location)
         {
             notifyLocationChanged(location);
-            //(Log.Debug(TAG, "New Location");
             _currentLocation = location;
-            if (_currentLocation == null)
-            {
-                Log.Debug(TAG, "Unable to determine your location. Try again in a short while.");
-            }
-            else
-            {
-                //Log.Debug(TAG, string.Format("{0:f6},{1:f6}", _currentLocation.Latitude, _currentLocation.Longitude));
-            }
         }
 
         public void OnProviderDisabled(string provider)

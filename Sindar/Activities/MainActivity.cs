@@ -19,6 +19,8 @@ namespace Sindar
         private LocationManager _locationManager;
         private string TAG = "X:" + typeof(MainActivity).Name;
         private IEnumerable<DeviceLocation> savedLocations;
+        private static Location currentLocation;
+        public SyncService syncService = new SyncService();
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -32,44 +34,11 @@ namespace Sindar
 
         private async void syncAllLocations(object sender, EventArgs e)
         {
-            IEnumerable<DeviceLocation> locations;
-            locations = new DeviceLocation[] { };
-            var path = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
-            path = Path.Combine(path, "baseSindar.db3");
-            var conn = new SQLiteConnection(path);
-            var localLocations = from s in conn.Table<DeviceLocation>()
-                                 select s;
-
-            List<DeviceLocation> list = locations.ToList();
-            foreach (var fila in localLocations)
-            {
-                DeviceLocation dev = new DeviceLocation();
-                dev.Latitude = fila.Latitude;
-                dev.Longitude = fila.Longitude;
-                dev.Accuracy = fila.Accuracy;
-                dev.SavedDate = fila.SavedDate;
-                dev.Id = fila.Id;
-
-                list.Add(dev);
-            }
-            var items = (IEnumerable<DeviceLocation>)list;
-
+           
+            var items = syncService.getLocations();
             RestClient Rest = new RestClient();
             savedLocations = await Rest.UpdateDeviceLocations(items);
-            List<DeviceLocation> listSaved = savedLocations.ToList();
-            if (listSaved.Count > 0)
-            {
-                foreach (var item in listSaved)
-                {
-                    if (item.Saved)
-                    {
-                        Log.Debug(TAG, "Eliminado: " + item.Id);
-                        conn.Execute("delete from DeviceLocation where Id='" + item.Id +"'");
-                    }
-
-                }
-            }
-            
+            syncService.deleteLocations(savedLocations.ToList());           
 
         }
 
@@ -79,22 +48,14 @@ namespace Sindar
             TrackingService trackingLocation = new TrackingService(_locationManager, notifyLocationChanged);
         }
 
-        public static void notifyLocationChanged(Location location)
+        public void notifyLocationChanged(Location location)
         {
-            var path = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal);
-            path = Path.Combine(path, "baseSindar.db3");
-            var conn = new SQLiteConnection(path);
-            conn.CreateTable<DeviceLocation>();
-            var Insert = new DeviceLocation();
-            Insert.Longitude = location.Longitude;
-            Insert.Latitude = location.Latitude;
-            Insert.Accuracy = location.Accuracy;
-            Insert.SavedDate = DateTime.Now;
-            Insert.Saved = false;
-            Insert.Id = Guid.NewGuid();
-            conn.Insert(Insert);
-            Log.Debug("X:MainActivity","New Location: " + string.Format("{0:f6},{1:f6}", location.Latitude, location.Longitude));
-        }
+            if (location != null)
+            {
+                currentLocation = location;
+                syncService.SaveLocation(location);
+            }
+         }
     }
 }
 

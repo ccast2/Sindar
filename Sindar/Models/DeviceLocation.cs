@@ -12,7 +12,7 @@ using Android.Widget;
 
 namespace Sindar.Models
 {
-    class DeviceLocation
+    public class DeviceLocation
     {
         public Guid Id { get; set; }
         public double Latitude { get; set; }
