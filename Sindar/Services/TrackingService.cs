@@ -56,7 +56,7 @@ namespace Sindar.Services
         public async void OnLocationChanged(Location location)
         {
             notifyLocationChanged(location);
-            Log.Debug(TAG, "New Location");
+            //(Log.Debug(TAG, "New Location");
             _currentLocation = location;
             if (_currentLocation == null)
             {
@@ -64,7 +64,7 @@ namespace Sindar.Services
             }
             else
             {
-                Log.Debug(TAG, string.Format("{0:f6},{1:f6}", _currentLocation.Latitude, _currentLocation.Longitude));
+                //Log.Debug(TAG, string.Format("{0:f6},{1:f6}", _currentLocation.Latitude, _currentLocation.Longitude));
             }
         }
 
