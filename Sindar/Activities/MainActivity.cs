@@ -10,6 +10,8 @@ using SQLite;
 using Sindar.Models;
 using System.Collections.Generic;
 using System.Linq;
+using Sindar.Activities;
+using Android.Content;
 
 namespace Sindar
 {
@@ -21,17 +23,44 @@ namespace Sindar
         private IEnumerable<DeviceLocation> savedLocations;
         private static Location currentLocation;
         public SyncService syncService = new SyncService();
+        Session session;
 
-        protected override void OnCreate(Bundle bundle)
+        public MainActivity()
         {
-            base.OnCreate(bundle);
 
-            // Set our view from the "main" layout resource
-            SetContentView (Resource.Layout.Main);
-            FindViewById<TextView>(Resource.Id.getLocation).Click += getLocationClick;
-            FindViewById<TextView>(Resource.Id.syncLocation).Click += syncAllLocations;
         }
 
+        protected override async void OnCreate(Bundle bundle)
+        {
+            var progressDialog = ProgressDialog.Show(this, "Espere por favor...", "Cargando...", true);
+            base.OnCreate(bundle);
+            Context mContext = Android.App.Application.Context;
+            AppPreferences ap = new AppPreferences(mContext);
+            string key = ap.getAccessKey();
+            bool rememberMe = ap.getRemeberValue();
+            session = new Session(key);
+            User user;
+            if (!rememberMe)
+            {
+                user = new User();
+            }
+            else {
+                user = await session.ValidateKey();
+            }
+
+            progressDialog.Hide();
+
+            if (user.Id > 0)
+            {
+                SetContentView(Resource.Layout.Main);
+                FindViewById<TextView>(Resource.Id.getLocation).Click += getLocationClick;
+                FindViewById<TextView>(Resource.Id.syncLocation).Click += syncAllLocations;
+            }
+            else
+            {
+                StartActivity(typeof(Login));
+            }
+        }
         private async void syncAllLocations(object sender, EventArgs e)
         {
            

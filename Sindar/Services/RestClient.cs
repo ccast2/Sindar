@@ -21,11 +21,12 @@ namespace Sindar.Services
     class RestClient
     {
         private string TAG = "X:" + typeof(MainActivity).Name;
+        
         public async Task<IEnumerable<DeviceLocation>> UpdateDeviceLocations(IEnumerable<DeviceLocation> locations)
         {
             return await SendAsJson(locations);
         }
-        protected string BaseUrl { get; set; } = "http://10.44.58.98/CTW/SindarRest/insertuser.php";
+        protected string BaseUrl { get; set; } = "http://restmision1a.azurewebsites.net/index.php/Locations";
         protected async Task<IEnumerable<DeviceLocation>> SendAsJson(IEnumerable<DeviceLocation> locations)
         {
             var result = Enumerable.Empty<DeviceLocation>();
