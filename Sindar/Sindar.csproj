@@ -87,7 +87,6 @@
     <Compile Include="Services\TrackingService.cs" />
     <Compile Include="SQLite.cs" />
     <Compile Include="SQLiteAsync.cs" />
-    <Compile Include="UIView.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

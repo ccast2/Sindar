@@ -46,9 +46,12 @@ namespace Sindar.Models
         protected async Task<string> SendAsJson(string url,KeyValuePair<string, string>[] data)
         {
             var result = "";
-            
-            using (var httpClient = new HttpClient())
+            HttpClientHandler hch = new HttpClientHandler();
+            hch.Proxy = null;
+            hch.UseProxy = false;
+            using (var httpClient = new HttpClient(hch))
             {
+             
                 httpClient.DefaultRequestHeaders.Accept.Clear();
                 httpClient.DefaultRequestHeaders.Accept.Add(
                     new MediaTypeWithQualityHeaderValue("application/json")
@@ -56,9 +59,9 @@ namespace Sindar.Models
                 httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", authKey);
                 var content = new FormUrlEncodedContent(data);
                 Log.Debug(TAG, "request");
-                var response = await httpClient.PostAsync(BaseUrl + url, content).ConfigureAwait(false);
-                
-                
+                var response = await httpClient.PostAsync(new Uri(BaseUrl + url), content).ConfigureAwait(false);
+                Log.Debug(TAG, "response");
+
                 if (response.IsSuccessStatusCode)
                 {
                     var json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
