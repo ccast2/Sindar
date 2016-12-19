@@ -21,6 +21,7 @@ namespace Sindar.Activities
         private EditText userName;
         private Switch rememberMe;
         private EditText password;
+        private Button send;
         private bool remember = true;
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -31,10 +32,8 @@ namespace Sindar.Activities
             userName = FindViewById<EditText>(Resource.Id.UserName);
             password = FindViewById<EditText>(Resource.Id.Password);
             rememberMe = FindViewById<Switch>(Resource.Id.RememberMe);
-            rememberMe.CheckedChange += delegate (object sender, CompoundButton.CheckedChangeEventArgs e) {
-                remember = e.IsChecked;
-            };
-            FindViewById<Button>(Resource.Id.LoginButton).Click += ValidateCredentials;
+            send = FindViewById<Button>(Resource.Id.LoginButton);
+            send.Click += ValidateCredentials;
         }
 
         private async void ValidateCredentials(object sender, EventArgs e)

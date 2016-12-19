@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:padding="70dp">
     <ImageView
-        android:src="@drawable/logo"
+        android:src="@drawable/Icon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/imageView1"
@@ -57,6 +57,6 @@
             android:layout_alignParentRight="true"
             android:checked="true"
             android:textOn="Si"
-            android:textOff="No"/>
+            android:textOff="No" />
     </RelativeLayout>
 </LinearLayout>

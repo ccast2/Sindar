@@ -20,6 +20,7 @@ namespace Sindar
     {
         private LocationManager _locationManager;
         private string TAG = "X:" + typeof(MainActivity).Name;
+        readonly string logTag = "MainActivity";
         private IEnumerable<DeviceLocation> savedLocations;
         private static Location currentLocation;
         public SyncService syncService = new SyncService();
@@ -55,12 +56,46 @@ namespace Sindar
                 SetContentView(Resource.Layout.Main);
                 FindViewById<TextView>(Resource.Id.getLocation).Click += getLocationClick;
                 FindViewById<TextView>(Resource.Id.syncLocation).Click += syncAllLocations;
+
+                App.Current.LocationServiceConnected += (object sender, ServiceConnectedEventArgs e) => {
+                    Log.Debug(logTag, "ServiceConnected Event Raised");
+                    // notifies us of location changes from the system
+                    App.Current.LocationService.LocationChanged += HandleLocationChanged;
+                    //notifies us of user changes to the location provider (ie the user disables or enables GPS)
+                    App.Current.LocationService.ProviderDisabled += HandleProviderDisabled;
+                    App.Current.LocationService.ProviderEnabled += HandleProviderEnabled;
+                    // notifies us of the changing status of a provider (ie GPS no longer available)
+                    App.Current.LocationService.StatusChanged += HandleStatusChanged;
+                };
+                App.StartLocationService();
             }
             else
             {
                 StartActivity(typeof(Login));
             }
         }
+
+        private void HandleStatusChanged(object sender, StatusChangedEventArgs e)
+        {
+            Log.Debug(logTag, "Location status changed, event raised");
+        }
+
+        private void HandleProviderEnabled(object sender, ProviderEnabledEventArgs e)
+        {
+            Log.Debug(logTag, "Location provider enabled event raised");
+        }
+
+        private void HandleProviderDisabled(object sender, ProviderDisabledEventArgs e)
+        {
+            Log.Debug(logTag, "Location provider disabled event raised");
+        }
+
+        private void HandleLocationChanged(object sender, LocationChangedEventArgs e)
+        {
+            Android.Locations.Location location = e.Location;
+            Log.Debug(logTag, "Foreground updating");
+        }
+
         private async void syncAllLocations(object sender, EventArgs e)
         {
            

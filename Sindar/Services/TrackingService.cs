@@ -14,7 +14,7 @@ using Android.Util;
 
 namespace Sindar.Services
 {
-    public class TrackingService : Java.Lang.Object,ILocationListener
+    public class TrackingService : Java.Lang.Object,ILocationListener 
     {
         private string TAG = "X:" + typeof(MainActivity).Name;
         private LocationManager _locationManager;
