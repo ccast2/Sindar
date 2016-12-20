@@ -64,7 +64,7 @@ namespace Sindar.Services
             var notification = new Notification.Builder(this)
                 .SetContentTitle("Sindar")
                 .SetContentText("Ubicacíon")
-                .SetSmallIcon(Resource.Drawable.logo)
+                .SetSmallIcon(Resource.Drawable.Icon)
                 .SetOngoing(true)
                 .Build();
 

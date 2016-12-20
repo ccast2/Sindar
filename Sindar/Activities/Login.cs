@@ -10,11 +10,12 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using Android.Support.V7.App;
 
 namespace Sindar.Activities
 {
     [Activity(Label = "Login", Theme = "@android:style/Theme.Material.Light")]
-    public class Login : Activity
+    public class Login : AppCompatActivity
     {
         Session session;
         Context context = Android.App.Application.Context;
