@@ -93,6 +93,7 @@ namespace Sindar
         private void HandleLocationChanged(object sender, LocationChangedEventArgs e)
         {
             Android.Locations.Location location = e.Location;
+            //notifyLocationChanged(location);
             Log.Debug(logTag, "Foreground updating");
         }
 
@@ -117,7 +118,6 @@ namespace Sindar
             if (location != null)
             {
                 currentLocation = location;
-                syncService.SaveLocation(location);
             }
          }
     }
