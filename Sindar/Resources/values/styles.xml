@@ -7,7 +7,7 @@
     <item name="colorPrimary">#003486</item>
     <item name="colorAccent">#99bf1a</item>
   </style>
-  <style name="MyTheme.Splash" parent ="Theme.AppCompat.Light">
+  <style name="MyTheme.Splash" parent ="MyTheme.Base">
     <item name="android:windowBackground">@drawable/splash_screen</item>
     <item name="android:windowNoTitle">true</item>
   </style>

@@ -13,6 +13,9 @@ using Android.Support.V7.App;
 using System.Threading.Tasks;
 using Android.Util;
 using Sindar.Models;
+using static Android.Resource;
+using Android.Views.Animations;
+using Android.Graphics.Drawables;
 
 namespace Sindar.Activities
 {
@@ -23,12 +26,27 @@ namespace Sindar.Activities
         Session session;
         User user;
 
-
         public override void OnCreate(Bundle savedInstanceState, PersistableBundle persistentState)
         {
             base.OnCreate(savedInstanceState, persistentState);
             RequestWindowFeature(WindowFeatures.NoTitle);
             Log.Debug(TAG, "SplashActivity.OnCreate");
+            StartAnimations();
+        }
+
+        private void StartAnimations()
+        {
+            var button = FindViewById(Resource.Id.splashIcon);
+
+            var translate = AnimationUtils.LoadAnimation(this,Resource.Animation.rotate_corner);
+            button.StartAnimation(translate);
+                                  
+        }
+
+        private void prueba(object sender, EventArgs e)
+        {
+            Log.Debug(TAG, "click click lick");
+            //Toast.MakeText(this, "Bottom toolbar tapped: ", ToastLength.Short).Show();
         }
 
         protected override void OnResume()

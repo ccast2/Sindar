@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/layerId">
   <item>
     <color android:color="#ffffff"/>
   </item>
@@ -7,6 +7,8 @@
     <bitmap
         android:src="@drawable/Icon"
         android:tileMode="disabled"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:id="@+id/splashIcon"/>
   </item>
+
 </layer-list>

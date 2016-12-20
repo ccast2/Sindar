@@ -61,6 +61,15 @@ namespace Sindar
 			// aapt resource value: 0x7f040009
 			public const int abc_slide_out_top = 2130968585;
 			
+			// aapt resource value: 0x7f04000a
+			public const int alpha = 2130968586;
+			
+			// aapt resource value: 0x7f04000b
+			public const int rotate_corner = 2130968587;
+			
+			// aapt resource value: 0x7f04000c
+			public const int translate = 2130968588;
+			
 			static Animation()
 			{
 				global::Android.Runtime.ResourceIdManager.UpdateIdValues();
@@ -1621,6 +1630,9 @@ namespace Sindar
 			// aapt resource value: 0x7f0b0067
 			public const int info = 2131427431;
 			
+			// aapt resource value: 0x7f0b006a
+			public const int layerId = 2131427434;
+			
 			// aapt resource value: 0x7f0b0061
 			public const int line1 = 2131427425;
 			
@@ -1639,23 +1651,23 @@ namespace Sindar
 			// aapt resource value: 0x7f0b005f
 			public const int media_actions = 2131427423;
 			
-			// aapt resource value: 0x7f0b006a
-			public const int menu_copy = 2131427434;
-			
-			// aapt resource value: 0x7f0b0069
-			public const int menu_cut = 2131427433;
-			
 			// aapt resource value: 0x7f0b006c
-			public const int menu_edit = 2131427436;
+			public const int menu_copy = 2131427436;
 			
 			// aapt resource value: 0x7f0b006b
-			public const int menu_paste = 2131427435;
+			public const int menu_cut = 2131427435;
 			
 			// aapt resource value: 0x7f0b006e
-			public const int menu_preferences = 2131427438;
+			public const int menu_edit = 2131427438;
 			
 			// aapt resource value: 0x7f0b006d
-			public const int menu_save = 2131427437;
+			public const int menu_paste = 2131427437;
+			
+			// aapt resource value: 0x7f0b0070
+			public const int menu_preferences = 2131427440;
+			
+			// aapt resource value: 0x7f0b006f
+			public const int menu_save = 2131427439;
 			
 			// aapt resource value: 0x7f0b001b
 			public const int middle = 2131427355;
@@ -1746,6 +1758,9 @@ namespace Sindar
 			
 			// aapt resource value: 0x7f0b002c
 			public const int spacer = 2131427372;
+			
+			// aapt resource value: 0x7f0b0069
+			public const int splashIcon = 2131427433;
 			
 			// aapt resource value: 0x7f0b0007
 			public const int split_action_bar = 2131427335;
@@ -1969,10 +1984,13 @@ namespace Sindar
 			public const int select_dialog_singlechoice_material = 2130903077;
 			
 			// aapt resource value: 0x7f030026
-			public const int support_simple_spinner_dropdown_item = 2130903078;
+			public const int Splash = 2130903078;
 			
 			// aapt resource value: 0x7f030027
-			public const int toolbar = 2130903079;
+			public const int support_simple_spinner_dropdown_item = 2130903079;
+			
+			// aapt resource value: 0x7f030028
+			public const int toolbar = 2130903080;
 			
 			static Layout()
 			{
