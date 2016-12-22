@@ -11,7 +11,17 @@
         android:layout_height="fill_parent"
         android:id="@+id/main_content"
         android:layout_below="@id/toolbar">
-
+      <ImageView
+          android:src="@android:drawable/ic_menu_gallery"
+          android:layout_width="fill_parent"
+          android:layout_height="300.0dp"
+          android:id="@+id/imageView1"
+          android:adjustViewBounds="true" />
+        <Button
+            android:text="takePicture"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/newPicture" />
         <ImageView
             android:layout_width="fill_parent"
             android:layout_height="0dp"

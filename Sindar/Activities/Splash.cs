@@ -1,7 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using Android.App;
 using Android.Content;
@@ -13,9 +10,7 @@ using Android.Support.V7.App;
 using System.Threading.Tasks;
 using Android.Util;
 using Sindar.Models;
-using static Android.Resource;
 using Android.Views.Animations;
-using Android.Graphics.Drawables;
 
 namespace Sindar.Activities
 {

@@ -5,17 +5,20 @@ using Android.Locations;
 using Sindar.Services;
 using System;
 using Android.Util;
-using System.IO;
-using SQLite;
 using Sindar.Models;
 using System.Collections.Generic;
 using System.Linq;
-using Sindar.Activities;
-using Android.Content;
 using Android.Views;
 
 using Android.Support.V7.App;
 using Toolbar = Android.Support.V7.Widget.Toolbar;
+using Java.IO;
+using Android.Content;
+using Android.Provider;
+using Android.Content.PM;
+using Uri = Android.Net.Uri;
+using Environment = Android.OS.Environment;
+using Android.Graphics;
 
 namespace Sindar
 {
@@ -28,6 +31,7 @@ namespace Sindar
         private IEnumerable<DeviceLocation> savedLocations;
         private static Location currentLocation;
         public SyncService syncService = new SyncService();
+        private ImageView _imageView;
 
         public MainActivity()
         {
@@ -66,8 +70,24 @@ namespace Sindar
                 App.Current.LocationService.StatusChanged += HandleStatusChanged;
             };
             App.StartLocationService();
+            if (IsThereAnAppToTakePictures())
+            {
+                CreateDirectoryForPictures();
 
+                Button button = FindViewById<Button>(Resource.Id.newPicture);
+                _imageView = FindViewById<ImageView>(Resource.Id.imageView1);
+                button.Click += TakeAPicture;
+            }
         }
+
+        private void TakeAPicture(object sender, EventArgs e)
+        {
+            Intent intent = new Intent(MediaStore.ActionImageCapture);
+            AppCamera._file = new File(AppCamera._dir, String.Format("myPhoto_{0}.jpg", Guid.NewGuid()));
+            intent.PutExtra(MediaStore.ExtraOutput, Uri.FromFile(AppCamera._file));
+            StartActivityForResult(intent, 0);
+        }
+
         public override bool OnCreateOptionsMenu(IMenu menu)
         {
             MenuInflater.Inflate(Resource.Menu.top_menus, menu);
@@ -112,19 +132,63 @@ namespace Sindar
 
         }
 
-        private void getLocationClick(object sender, EventArgs e)
+        private void CreateDirectoryForPictures ()
         {
-            _locationManager = (LocationManager)GetSystemService(LocationService);
-            TrackingService trackingLocation = new TrackingService(_locationManager, notifyLocationChanged);
+            AppCamera._dir = new File (
+                Environment.GetExternalStoragePublicDirectory (
+                    Environment.DirectoryPictures), "CameraAppDemo");
+            if (!AppCamera._dir.Exists ())
+            {
+                AppCamera._dir.Mkdirs( );
+            }
         }
 
-        public void notifyLocationChanged(Location location)
+        private bool IsThereAnAppToTakePictures ()
         {
-            if (location != null)
-            {
-                currentLocation = location;
-            }
-         }
+            Intent intent = new Intent (MediaStore.ActionImageCapture);
+            IList<ResolveInfo> availableActivities =
+                PackageManager.QueryIntentActivities (intent, PackageInfoFlags.MatchDefaultOnly);
+            return availableActivities != null && availableActivities.Count > 0;
+        }
+        protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
+        {
+            base.OnActivityResult(requestCode, resultCode, data);
+
+
+            Log.Debug(logTag, "entro");
+
+            //// make it available in the gallery
+
+            //intent mediascanintent = new intent(intent.actionmediascannerscanfile);
+            //uri contenturi = uri.fromfile(appcamera._file);
+            //mediascanintent.setdata(contenturi);
+            //sendbroadcast(mediascanintent);
+
+            //// display in imageview. we will resize the bitmap to fit the display.
+            //// loading the full sized image will consume to much memory
+            //// and cause the application to crash.
+
+            //int height = resources.displaymetrics.heightpixels;
+            //int width = _imageview.height;
+            //appcamera.bitmap = appcamera._file.path.loadandresizebitmap(width, height);
+            //if (appcamera.bitmap != null)
+            //{
+            //    _imageview.setimagebitmap(appcamera.bitmap);
+            //    appcamera.bitmap = null;
+            //}
+
+            //// dispose of the java side bitmap.
+            //gc.collect();
+        }
+
+    }
+
+    internal class AppCamera
+    {
+        internal static File _dir;
+        internal static File _file;
+
+        public static Bitmap bitmap { get; internal set; }
     }
 }
 
