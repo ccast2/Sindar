@@ -2,24 +2,21 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/toolbar" />
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:id="@+id/main_content"
-        android:layout_below="@id/toolbar">
+        android:id="@+id/main_content">
       <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="1">
         <android.support.v7.widget.Toolbar
-            android:id="@+id/edit_toolbar"
+            android:id="@+id/topToolbar"
             android:minHeight="?attr/actionBarSize"
-            android:background="?attr/colorAccent"
+            android:background="?attr/colorPrimary"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -28,7 +25,8 @@
           android:minHeight="25px"
           android:layout_width="match_parent"
           android:layout_height="fill_parent"
-          android:id="@+id/myListView" />
+          android:id="@+id/myListView" 
+          android:layout_below="@id/topToolbar"/>
       </LinearLayout>
       <LinearLayout
         android:orientation="vertical"
@@ -36,7 +34,7 @@
         android:layout_height="fill_parent"
         android:layout_weight="1">
         <android.support.v7.widget.Toolbar
-            android:id="@+id/edit_toolbar2"
+            android:id="@+id/middleToolbar"
             android:minHeight="?attr/actionBarSize"
             android:background="?attr/colorAccent"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
@@ -47,9 +45,9 @@
             android:minHeight="25px"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
-            android:id="@+id/myListView2" />
+            android:id="@+id/myListView2"
+            android:layout_below="@id/middleToolbar"
+            />
       </LinearLayout>
-
-
     </LinearLayout>
 </RelativeLayout>

@@ -26,41 +26,29 @@ namespace Sindar
     [Activity(Label = "Sindar", Icon = "@drawable/icon")]
     public class MainActivity : AppCompatActivity
     {
-        private LocationManager _locationManager;
         private string TAG = "X:" + typeof(MainActivity).Name;
         readonly string logTag = "MainActivity";
         private IEnumerable<DeviceLocation> savedLocations;
         private static Location currentLocation;
         public SyncService syncService = new SyncService();
-        private ImageView _imageView;
-        private string[] items;
-
         public ArrayAdapter<string> ListAdapter { get; private set; }
 
-        public MainActivity()
-        {
-
-        }
 
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
 
-
             SetContentView(Resource.Layout.Main);
-            //FindViewById<TextView>(Resource.Id.getLocation).Click += getLocationClick;
-            //FindViewById<TextView>(Resource.Id.syncLocation).Click += syncAllLocations;
-            var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
-            SetSupportActionBar(toolbar);
-            SupportActionBar.Title = "My AppCompat Toolbar";
-            var editToolbar = FindViewById<Toolbar>(Resource.Id.edit_toolbar);
+
+            var editToolbar = FindViewById<Toolbar>(Resource.Id.topToolbar);
             editToolbar.Title = "Editing";
-            editToolbar.InflateMenu(Resource.Menu.edit_menus);
+            editToolbar.InflateMenu(Resource.Menu.first_menu);
             editToolbar.MenuItemClick += (sender, e) =>
             {
-                Toast.MakeText(this, "Bottom toolbar tapped: " + e.Item.TitleFormatted, ToastLength.Short).Show();
+
             };
-            var editToolbar2 = FindViewById<Toolbar>(Resource.Id.edit_toolbar2);
+
+            var editToolbar2 = FindViewById<Toolbar>(Resource.Id.middleToolbar);
             editToolbar2.Title = "Editing";
             editToolbar2.InflateMenu(Resource.Menu.edit_menus);
             editToolbar2.MenuItemClick += (sender, e) =>
@@ -70,15 +58,13 @@ namespace Sindar
 
 
 
+
             App.Current.LocationServiceConnected += (object sender, ServiceConnectedEventArgs e) =>
             {
                 Log.Debug(logTag, "ServiceConnected Event Raised");
-                // notifies us of location changes from the system
                 App.Current.LocationService.LocationChanged += HandleLocationChanged;
-                //notifies us of user changes to the location provider (ie the user disables or enables GPS)
                 App.Current.LocationService.ProviderDisabled += HandleProviderDisabled;
                 App.Current.LocationService.ProviderEnabled += HandleProviderEnabled;
-                // notifies us of the changing status of a provider (ie GPS no longer available)
                 App.Current.LocationService.StatusChanged += HandleStatusChanged;
             };
             App.StartLocationService();
@@ -153,8 +139,7 @@ namespace Sindar
 
         private void HandleLocationChanged(object sender, LocationChangedEventArgs e)
         {
-            Android.Locations.Location location = e.Location;
-            //notifyLocationChanged(location);
+            currentLocation = e.Location;
             Log.Debug(logTag, "Foreground updating");
         }
 
