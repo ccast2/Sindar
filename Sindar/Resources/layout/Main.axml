@@ -11,21 +11,11 @@
         android:layout_height="fill_parent"
         android:id="@+id/main_content"
         android:layout_below="@id/toolbar">
-      <ImageView
-          android:src="@android:drawable/ic_menu_gallery"
-          android:layout_width="fill_parent"
-          android:layout_height="300.0dp"
-          android:id="@+id/imageView1"
-          android:adjustViewBounds="true" />
-        <Button
-            android:text="takePicture"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/newPicture" />
-        <ImageView
-            android:layout_width="fill_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
+      <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1">
         <android.support.v7.widget.Toolbar
             android:id="@+id/edit_toolbar"
             android:minHeight="?attr/actionBarSize"
@@ -33,5 +23,33 @@
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+      <ListView
+          android:minWidth="25px"
+          android:minHeight="25px"
+          android:layout_width="match_parent"
+          android:layout_height="fill_parent"
+          android:id="@+id/myListView" />
+      </LinearLayout>
+      <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/edit_toolbar2"
+            android:minHeight="?attr/actionBarSize"
+            android:background="?attr/colorAccent"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <ListView
+            android:minWidth="25px"
+            android:minHeight="25px"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/myListView2" />
+      </LinearLayout>
+
+
     </LinearLayout>
 </RelativeLayout>

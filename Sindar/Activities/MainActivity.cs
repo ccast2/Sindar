@@ -6,6 +6,7 @@ using Sindar.Services;
 using System;
 using Android.Util;
 using Sindar.Models;
+using Sindar.Adapters;
 using System.Collections.Generic;
 using System.Linq;
 using Android.Views;
@@ -32,6 +33,9 @@ namespace Sindar
         private static Location currentLocation;
         public SyncService syncService = new SyncService();
         private ImageView _imageView;
+        private string[] items;
+
+        public ArrayAdapter<string> ListAdapter { get; private set; }
 
         public MainActivity()
         {
@@ -56,6 +60,14 @@ namespace Sindar
             {
                 Toast.MakeText(this, "Bottom toolbar tapped: " + e.Item.TitleFormatted, ToastLength.Short).Show();
             };
+            var editToolbar2 = FindViewById<Toolbar>(Resource.Id.edit_toolbar2);
+            editToolbar2.Title = "Editing";
+            editToolbar2.InflateMenu(Resource.Menu.edit_menus);
+            editToolbar2.MenuItemClick += (sender, e) =>
+            {
+                Toast.MakeText(this, "Bottom toolbar tapped: " + e.Item.TitleFormatted, ToastLength.Short).Show();
+            };
+
 
 
             App.Current.LocationServiceConnected += (object sender, ServiceConnectedEventArgs e) =>
@@ -74,10 +86,34 @@ namespace Sindar
             {
                 CreateDirectoryForPictures();
 
-                Button button = FindViewById<Button>(Resource.Id.newPicture);
-                _imageView = FindViewById<ImageView>(Resource.Id.imageView1);
-                button.Click += TakeAPicture;
+                //Button button = FindViewById<Button>(Resource.Id.newPicture);
+                //_imageView = FindViewById<ImageView>(Resource.Id.imageView1);
+                //button.Click += TakeAPicture;
             }
+            ListView listView = FindViewById<ListView>(Resource.Id.myListView);
+            listView.ItemClick += OnListItemClick;
+            List<Post> listData = new List<Post>();
+            Post post1 = new Post();
+            post1.title = "1";
+            post1.description = "2";
+            post1.url = "3";
+            listData.Add(post1);
+            listView.Adapter = new CustomListAdapter(this, listData);
+            ListView listView2 = FindViewById<ListView>(Resource.Id.myListView2);
+            listView2.ItemClick += OnListItemClick;
+            List<Post> listData2 = new List<Post>();
+            Post post2 = new Post();
+            post2.title = "4";
+            post2.description = "5";
+            post2.url = "6";
+            listData2.Add(post2);
+            listView2.Adapter = new CustomListAdapter(this, listData2);
+        }
+
+        private void OnListItemClick(object sender, AdapterView.ItemClickEventArgs e)
+        {
+            //Post item = result.posts.ElementAt(e.Position);
+            // Do whatever you like here
         }
 
         private void TakeAPicture(object sender, EventArgs e)

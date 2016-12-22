@@ -98,6 +98,7 @@
     <Compile Include="Activities\Login.cs" />
     <Compile Include="Activities\MainActivity.cs" />
     <Compile Include="Activities\Splash.cs" />
+    <Compile Include="Adapters\CustomListAdapter.cs" />
     <Compile Include="App.cs" />
     <Compile Include="Services\LocationServiceConnection.cs" />
     <Compile Include="Models\AppPreferences.cs" />
@@ -127,6 +128,12 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\Splash.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\ListItemRow.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\Event.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
