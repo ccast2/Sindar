@@ -45,6 +45,16 @@ namespace Sindar
             editToolbar.InflateMenu(Resource.Menu.first_menu);
             editToolbar.MenuItemClick += (sender, e) =>
             {
+                
+                switch (e.Item.TitleFormatted.ToString())
+                {
+                    case "Nuevo":
+                        break;
+                    case "Configuración":
+                        break;
+                    default:
+                        break;
+                }
 
             };
 

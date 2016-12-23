@@ -5,7 +5,7 @@
        android:id="@+id/menu_new"
        android:icon="@drawable/ic_action_create"
        local:showAsAction="ifRoom"
-       android:title="New" />
+       android:title="Nuevo" />
   <item
        android:id="@+id/menu_preferences"
        local:showAsAction="never"
