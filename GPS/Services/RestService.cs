@@ -16,6 +16,11 @@ namespace GPS.Services
         protected string BaseUrl { get; set; } = "http://restmision1a.azurewebsites.net/index.php/Users/";
         public string authKey;
 
+        public RestService(string key = "")
+        {
+            authKey = key;
+        }
+
         protected async Task<string> SendAsJson(string url, KeyValuePair<string, string>[] data)
         {
             var result = "";
@@ -33,9 +38,7 @@ namespace GPS.Services
                         );
                     httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", authKey);
                     var content = new FormUrlEncodedContent(data);
-                    Log.Debug(TAG, "request");
                     var response = await httpClient.PostAsync(new Uri(BaseUrl + url), content).ConfigureAwait(false);
-                    Log.Debug(TAG, "response");
 
                     if (response.IsSuccessStatusCode)
                     {
@@ -54,7 +57,6 @@ namespace GPS.Services
             }
             else
             {
-                Toast.MakeText(this, "Bottom toolbar tapped: " + e.Item.TitleFormatted, ToastLength.Short).Show();
                 result = "";
             }
 
