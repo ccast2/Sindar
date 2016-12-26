@@ -110,11 +110,13 @@
     <Compile Include="Activities\MainActivity.cs" />
     <Compile Include="Activities\Splash.cs" />
     <Compile Include="App.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\LocationService.cs" />
     <Compile Include="Services\LocationServiceBinder.cs" />
     <Compile Include="Services\LocationServiceConnection.cs" />
+    <Compile Include="Services\PreferencesService.cs" />
     <Compile Include="Services\RestService.cs" />
     <Compile Include="Services\ServiceConnectedEventArgs.cs" />
   </ItemGroup>
