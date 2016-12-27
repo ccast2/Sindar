@@ -9,4 +9,8 @@
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 	<service android:exported="true" android:name="com.xamarin.example.DemoService" />
 	<application android:label="GPS" android:theme="@style/MyTheme"></application>
+  <receiver
+      android:name="com.xamarin.example.AlarmService"
+      android:exported="false">
+  </receiver>
 </manifest>

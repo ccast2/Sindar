@@ -10,13 +10,14 @@ namespace GPS.Services
     class RestService
     {
         private string TAG = "X:" + typeof(RestService).Name;
-        protected string BaseUrl { get; set; } = "http://restmision1a.azurewebsites.net/index.php/";
-        public string authKey;
-        public string subUrl = "Users/";
+        protected string BaseUrl { get; set; } = "http://192.168.1.7/index.php/";
+        public string authKey = "";
 
-        public RestService(string key = "")
+        public RestService()
         {
-            authKey = key;
+            
+            PreferencesService ap = new PreferencesService(Android.App.Application.Context);
+            authKey = ap.getAccessKey();
         }
 
         public async Task<string> SendAsJson(string url, KeyValuePair<string, string>[] data)

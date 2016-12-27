@@ -12,6 +12,10 @@ using Android.Widget;
 using Android.Locations;
 using System.Threading;
 using Android.Util;
+using Java.Util.Concurrent;
+using Java.Lang;
+using System.Threading.Tasks;
+using GPS.Models;
 
 namespace GPS.Services
 {
@@ -37,19 +41,16 @@ namespace GPS.Services
         public override void OnCreate()
         {
             base.OnCreate();
-            Log.Debug(TAG, "OnCreate called in the Location Service");
         }
         public override void OnDestroy()
         {
             base.OnDestroy();
-            Log.Debug(TAG, "Service has been terminated");
 
             // Stop getting updates from the location manager:
             LocMgr.RemoveUpdates(this);
         }
         public override IBinder OnBind(Intent intent)
         {
-            Log.Debug(TAG, "Client now bound to service");
             binder = new LocationServiceBinder(this);
             return binder;
         }
@@ -64,25 +65,20 @@ namespace GPS.Services
 
             // get provider: GPS, Network, etc.
             var locationProvider = LocMgr.GetBestProvider(locationCriteria, true);
-            Log.Debug(TAG, string.Format("You are about to get location updates via {0}", locationProvider));
 
             // Get an initial fix on location
             LocMgr.RequestLocationUpdates(locationProvider, 3000, 10, this);
 
-            Log.Debug(TAG, "Now sending location updates");
         }
         public override StartCommandResult OnStartCommand(Intent intent, StartCommandFlags flags, int startId)
         {
-            Log.Debug(TAG, $"OnStartCommand called at {startTime}, flags={flags}, startid={startId}");
             if (isStarted)
             {
                 TimeSpan runtime = DateTime.UtcNow.Subtract(startTime);
-                Log.Debug(TAG, $"This service was already started, it's been running for {runtime:c}.");
             }
             else
             {
                 startTime = DateTime.UtcNow;
-                Log.Debug(TAG, $"Starting the service, at {startTime}.");
                 timer = new Timer(HandleTimerCallback, startTime, 0, TimerWait);
                 isStarted = true;
             }
@@ -94,18 +90,44 @@ namespace GPS.Services
                 .SetOngoing(true)
                 .Build();
 
-            // Enlist this instance of the service as a foreground service
+            Task startupWork = new Task(() =>
+            {
+                TimerExampleState s = new TimerExampleState();
+
+                TimerCallback timerDelegate = new TimerCallback(syncData);
+
+                Timer timer = new Timer(timerDelegate, s, 1000, 3000);
+
+                s.tmr = timer;
+                
+
+                while (s.tmr != null)
+                    System.Threading.Thread.Sleep(0);
+                
+            });
+            startupWork.Start();
             StartForeground(SERVICE_RUNNING_NOTIFICATION_ID, notification);
             return StartCommandResult.NotSticky;
         }
+
+        private void syncData(object state)
+        {
+            var sync = new SyncService();
+            sync.pushLocations();
+        }
+
         void HandleTimerCallback(object state)
         {
             TimeSpan runTime = DateTime.UtcNow.Subtract(startTime);
-            Log.Debug(TAG, $"This service has been running for {runTime:c} (since ${state}).");
         }
         public void OnLocationChanged(Location location)
         {
-            Log.Debug(TAG, "Cambio ubicacion");
+            DatabaseService db = new DatabaseService();
+            var tmp = new DeviceLocation();
+            tmp.Latitude = location.Latitude;
+            tmp.Longitude = location.Longitude;
+            tmp.Accuracy = location.Accuracy;
+            db.saveLocation(tmp);
         }
 
         public void OnProviderDisabled(string provider)
@@ -123,4 +145,10 @@ namespace GPS.Services
             this.StatusChanged(this, new StatusChangedEventArgs(provider, status, extras));
         }
     }
+class TimerExampleState
+{
+    public int counter = 0;
+    public Timer tmr;
+}
+
 }

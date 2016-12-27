@@ -6,6 +6,8 @@ using Android.Support.V7.App;
 using Android.Util;
 using System.Threading.Tasks;
 using GPS.Models;
+using GPS.Services;
+using Newtonsoft.Json;
 
 namespace GPS.Activities
 {
@@ -19,7 +21,7 @@ namespace GPS.Activities
             RequestWindowFeature(WindowFeatures.NoTitle);
             Log.Debug(TAG, "SplashActivity.OnCreate");
         }
-        protected override void OnResume()
+        protected override async void OnResume()
         {
             base.OnResume();
 
@@ -28,11 +30,16 @@ namespace GPS.Activities
             Context mContext = Android.App.Application.Context;
             User currentUser = new User();
             currentUser.uContext = mContext;
-            currentUser.getUser();
+            PreferencesService ap = new PreferencesService(mContext);
+            string key = ap.getAccessKey();
+            var response = await currentUser.getUser(key);
 
             if (currentUser.Id > 0)
             {
-                StartActivity(new Intent(Application.Context, typeof(MainActivity)));
+                var activity2 = new Intent(this, typeof(MainActivity));
+                currentUser.uContext = null;
+                activity2.PutExtra("User", JsonConvert.SerializeObject(currentUser));
+                StartActivity(activity2);
             }
             else
             {

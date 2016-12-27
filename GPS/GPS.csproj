@@ -106,19 +106,27 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Activities\DeviceEventActivity.cs" />
     <Compile Include="Activities\Login.cs" />
     <Compile Include="Activities\MainActivity.cs" />
     <Compile Include="Activities\Splash.cs" />
     <Compile Include="App.cs" />
+    <Compile Include="Models\DeviceEvent.cs" />
+    <Compile Include="Models\DeviceLocation.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AlarmReceiver.cs" />
+    <Compile Include="Services\DatabaseService.cs" />
     <Compile Include="Services\LocationService.cs" />
     <Compile Include="Services\LocationServiceBinder.cs" />
     <Compile Include="Services\LocationServiceConnection.cs" />
     <Compile Include="Services\PreferencesService.cs" />
     <Compile Include="Services\RestService.cs" />
     <Compile Include="Services\ServiceConnectedEventArgs.cs" />
+    <Compile Include="Services\SyncService.cs" />
+    <Compile Include="SQLite.cs" />
+    <Compile Include="SQLiteAsync.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -133,6 +141,9 @@
       <SubType>Designer</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\drawable\splash_screen.axml">
+      <SubType>Designer</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\DeviceEvent.axml">
       <SubType>Designer</SubType>
     </AndroidResource>
   </ItemGroup>
@@ -170,6 +181,9 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable-xxhdpi\ic_action_content_create.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\eventToolbar.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

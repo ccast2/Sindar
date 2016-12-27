@@ -5,6 +5,8 @@ using Android.Support.V7.App;
 using Android.Widget;
 using GPS.Models;
 using Android.Content;
+using Newtonsoft.Json;
+using GPS.Services;
 
 namespace GPS.Activities
 {
@@ -22,7 +24,7 @@ namespace GPS.Activities
             send.Click += ValidateCredentials;
         }
 
-        private void ValidateCredentials(object sender, EventArgs e)
+        private async void ValidateCredentials(object sender, EventArgs e)
         {
             var progressDialog = ProgressDialog.Show(this, "Espere por favor...", "Validando...", true);
             var userName = FindViewById<EditText>(Resource.Id.UserName);
@@ -37,7 +39,16 @@ namespace GPS.Activities
                 User user = new User();
                 Context mContext = Android.App.Application.Context;
                 user.uContext = mContext;
-                user.login(userName.Text.ToString(), password.Text.ToString());
+                var response = await user.login(userName.Text.ToString(), password.Text.ToString());
+                if (user.Id > 0)
+                {
+                    PreferencesService ap = new PreferencesService(mContext);
+                    ap.saveValue(user.auth);
+                    var activity2 = new Intent(this, typeof(MainActivity));
+                    user.uContext = null;
+                    activity2.PutExtra("User", JsonConvert.SerializeObject(user));
+                    StartActivity(activity2);
+                }
             }
             progressDialog.Hide();
         }

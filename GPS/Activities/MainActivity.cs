@@ -6,6 +6,12 @@ using Android.Support.V7.App;
 using GPS.Services;
 using Android.Util;
 using Android.Locations;
+using GPS.Models;
+using Newtonsoft.Json;
+using Android.Content;
+using Java.Util.Concurrent;
+using Java.Lang;
+using GPS.Activities;
 
 namespace GPS
 {
@@ -13,14 +19,21 @@ namespace GPS
     public class MainActivity : AppCompatActivity
     {
         readonly string TAG = "MainActivity";
+        User currentUser;
+
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
 
             SetContentView(Resource.Layout.Main);
+            string userString = Intent.GetStringExtra("User") ?? "Data not available";
+            currentUser = JsonConvert.DeserializeObject<User>(userString);
+            Context mContext = Android.App.Application.Context;
+            currentUser.uContext = mContext;
             renderMainView();
             startGPS();
         }
+
 
         private void startGPS()
         {
@@ -65,6 +78,7 @@ namespace GPS
                 switch (e.Item.TitleFormatted.ToString())
                 {
                     case "Nuevo":
+                        createNewEvent();
                         break;
                     case "Configuración":
                         break;
@@ -85,6 +99,11 @@ namespace GPS
                         break;
                 }
             };
+        }
+
+        private void createNewEvent()
+        {
+            StartActivity(new Intent(Application.Context, typeof(DeviceEventActivity)));
         }
     }
 }

@@ -2,4 +2,14 @@
 <resources>
     <string name="Hello">Hello World, Click Me!</string>
     <string name="ApplicationName">GPS</string>
+  <string name="planet_prompt">Escoja un tipo</string>
+  <string-array name="planets_array">
+    <item>Encendido vehiculo</item>
+    <item>Apagado Vehiculo</item>
+    <item>Inicio operación</item>
+    <item>Fin operación</item>
+    <item>Evidencia vehiculo</item>
+    <item>Evidencia gasolina</item>
+    <item>Otro</item>
+  </string-array>
 </resources>
